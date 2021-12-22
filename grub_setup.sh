@@ -15,12 +15,6 @@ sed -i "s/GRUB_CMDLINE_LINUX=\"\(.*\)\"/GRUB_CMDLINE_LINUX=\"\1 $to_add\"/" /etc
 # Update the grub config
 grub-mkconfig -o /boot/grub/grub.cfg
 
-# Install vendor-reset
-yay -S vendor-reset-dkms-git
-
-# Add the module to load on boot
-echo "vendor-reset" | sudo tee /etc/modules-load.d/vendor-reset.conf
-
 # Prompt the user for a reboot
 echo "Reboot to apply changes"
 read -p "Reboot now? [y/n] " -n 1 -r
