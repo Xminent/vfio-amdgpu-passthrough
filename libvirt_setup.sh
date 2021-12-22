@@ -27,6 +27,12 @@ systemctl start libvirtd
 # Enable the libvirtd service
 systemctl enable libvirtd
 
+# Download the hook manager
+wget 'https://raw.githubusercontent.com/PassthroughPOST/VFIO-Tools/master/libvirt_hooks/qemu' -O /etc/libvirt/hooks/qemu
+
+# Make the hook executable
+chmod +x /etc/libvirt/hooks/qemu
+
 # #user = "root" to user = "xminent" for /etc/libvirt/qemu.conf
 sed -i 's/^user = "root"/user = "xminent"/' /etc/libvirt/qemu.conf
 
