@@ -6,6 +6,15 @@ if [ "$(id -u)" != "0" ]; then
     exit 1
 fi
 
+# Install the packages
+pacman -S libvirt libvirt-glib libvirt-python virt-install virt-manager qemu qemu-arch-extra ovmf vde2 ebtables dnsmasq bridge-utils openbsd-netcat iptables swtpm
+
+# Start the libvirtd service
+systemctl start libvirtd
+
+# Enable the libvirtd service
+systemctl enable libvirtd
+
 # Uncomment the # from the line unix_sock_group = "libvirt"
 sed -i 's/^#unix_sock_group = "libvirt"/unix_sock_group = "libvirt"/' /etc/libvirt/libvirtd.conf
 
@@ -20,12 +29,6 @@ echo "log_outputs=\"1:file:/var/log/libvirt/libvirtd.log\"" >>/etc/libvirt/libvi
 
 # Add your user to the libvirt group
 usermod -a -G libvirt "xminent"
-
-# Start the libvirtd service
-systemctl start libvirtd
-
-# Enable the libvirtd service
-systemctl enable libvirtd
 
 # Download the hook manager
 wget 'https://raw.githubusercontent.com/PassthroughPOST/VFIO-Tools/master/libvirt_hooks/qemu' -O /etc/libvirt/hooks/qemu
