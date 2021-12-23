@@ -15,3 +15,11 @@ modprobe vfio-pci
 # Hand GPU to vfio-pci
 echo -n "${GPU_ID}" >/sys/bus/pci/drivers/vfio-pci/new_id
 echo -n "${GPU_AUDIO_ID}" >/sys/bus/pci/drivers/vfio-pci/new_id
+
+# Bind GPU to vfio-pci
+echo -n "0000:${GPU}.0" >/sys/bus/pci/drivers/vfio-pci/bind
+echo -n "0000:${GPU}.1" >/sys/bus/pci/drivers/vfio-pci/bind
+
+# Apparently you can just remove their id after assigning it
+echo -n "${GPU_ID}" >/sys/bus/pci/drivers/vfio-pci/remove_id
+echo -n "${GPU_AUDIO_ID}" >/sys/bus/pci/drivers/vfio-pci/remove_id
