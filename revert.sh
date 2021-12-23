@@ -24,4 +24,4 @@ echo 1 >/sys/bus/pci/devices/"0000:${GPU}.1"/remove
 echo 1 >/sys/bus/pci/rescan
 
 # Currently I can only get the GPU to come back when I restart the display manager. Not sure why.
-systemctl restart ligthdm.service
+systemctl restart lightdm.service
