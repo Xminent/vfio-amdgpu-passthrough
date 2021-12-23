@@ -30,6 +30,9 @@ echo "log_outputs=\"1:file:/var/log/libvirt/libvirtd.log\"" >>/etc/libvirt/libvi
 # Add your user to the libvirt group
 usermod -a -G libvirt "xminent"
 
+# Create a hooks folder for libvirt
+mkdir -p /etc/libvirt/hooks
+
 # Download the hook manager
 wget 'https://raw.githubusercontent.com/PassthroughPOST/VFIO-Tools/master/libvirt_hooks/qemu' -O /etc/libvirt/hooks/qemu
 
@@ -48,17 +51,20 @@ systemctl restart libvirtd
 # Enable autostart for the virsh internal network
 virsh net-autostart default
 
+# Copy the user variables for the pci devices
+cp kvm.conf /etc/libvirt/hooks/
+
 # Create the start directory
 mkdir -p /etc/libvirt/hooks/qemu.d/win10/prepare/begin/
 
 # Copy the start file to that directory
-cp start.sh /etc/libvirt/hooks/qemu.d/win10/prepare/begin/start.sh
+cp start.sh /etc/libvirt/hooks/qemu.d/win10/prepare/begin/
 
 # Create the revert directory
 mkdir -p /etc/libvirt/hooks/qemu.d/win10/release/end/
 
 # Copy the revert file to that directory
-cp revert.sh /etc/libvirt/hooks/qemu.d/win10/release/end/revert.sh
+cp revert.sh /etc/libvirt/hooks/qemu.d/win10/release/end/
 
 # Done!
 echo "Done!"
